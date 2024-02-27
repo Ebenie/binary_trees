@@ -6,11 +6,21 @@
  *
  * Return: A pointer to the uncle node, or NULL if no uncle exists.
  */
-binary_tree_t *binary_tree_uncle(binary_tree_t *node)
-{
-    if (node == NULL || node->parent == NULL)
-        return (NULL);
-
-    return binary_tree_sibling(node->parent);
+binary_tree_t *binary_tree_uncle(binary_tree_t *node) {
+    if (node == NULL || node->parent == NULL || node->parent->parent == NULL) {
+        return NULL;
+    }
+    
+    binary_tree_t *grandparent = node->parent->parent;
+    
+    if (grandparent->left == NULL || grandparent->right == NULL) {
+        return NULL;
+    }
+    
+    if (grandparent->left == node->parent) {
+        return grandparent->right;
+    } else {
+        return grandparent->left; 
+    }
 }
 
