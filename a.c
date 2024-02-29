@@ -1,24 +1,22 @@
 #include "binary_trees.h"
 
 /**
- * binary_tree_is_leaf - Checks if a node is a leaf or not
+ * binary_tree_inorder - Traverse a binary tree using in-order traversal.
  *
- * @node: Pointer to the node to check
- *
- * Return: 1 if the node is a leaf, 0 otherwise
+ * @tree: Pointer to the root node of the tree to traverse.
+ * @func: Pointer to a function to call for each node, The value
+ *        in the node must be passed as a parameter to this function.
+ *        If NULL, do nothing.
  */
-int binary_tree_is_leaf(const binary_tree_t *node)
+void binary_tree_inorder(const binary_tree_t *tree, void (*func)(int))
 {
-	if (node == NULL)
-		return (0);
+	if (tree == NULL || func == NULL)
+	{
+		return;
+	}
 
-	if (node->left == NULL && node->right == NULL)
-	{
-		return (1);
-	}
-	else
-	{
-		return (0);
-	}
+	binary_tree_inorder(tree->left, func);
+	func(tree->n);
+	binary_tree_inorder(tree->right, func);
 }
 
