@@ -1,22 +1,25 @@
 #include "binary_trees.h"
 
 /**
- * binary_tree_inorder - Traverse a binary tree using in-order traversal.
+ * binary_tree_depth - Measures the depth of a node in a binary tree.
  *
- * @tree: Pointer to the root node of the tree to traverse.
- * @func: Pointer to a function to call for each node, The value
- *        in the node must be passed as a parameter to this function.
- *        If NULL, do nothing.
+ * @tree: A pointer to the node to measure the depth.
+ *
+ * Return: The depth of the node. If tree is NULL, returns 0.
  */
-void binary_tree_inorder(const binary_tree_t *tree, void (*func)(int))
+size_t binary_tree_depth(const binary_tree_t *tree)
 {
-	if (tree == NULL || func == NULL)
+	size_t depth = 0;
+
+	if (tree == NULL)
+		return (0);
+
+	while (tree->parent != NULL)
 	{
-		return;
+		depth++;
+		tree = tree->parent;
 	}
 
-	binary_tree_inorder(tree->left, func);
-	func(tree->n);
-	binary_tree_inorder(tree->right, func);
+	return (depth);
 }
 
