@@ -1,31 +1,54 @@
 #include "binary_trees.h"
 
 /**
- * binary_tree_sibling - Finds the sibling of a node in a binary tree
+ * binary_trees_ancestor - Finds the lowest common ancestor of two nodes
  *
- * @node: Pointer to the node to find the sibling
+ * @first: A pointer to the first node
+ * @second: A pointer to the second node
  *
- * Return: Pointer to the sibling node, or NULL if node is NULL, parent is NULL,
- *         or node has no sibling
+ * Return: A pointer to the lowest common ancestor node, or NULL if not found
  */
-binary_tree_t *binary_tree_sibling(binary_tree_t *node)
+binary_tree_t *binary_trees_ancestor(const binary_tree_t *first, const binary_tree_t *second)
 {
-	if (node == NULL || node->parent == NULL)
-		return (NULL);
+	const binary_tree_t *ptr1 = first, *ptr2 = second;
+	size_t depth1 = 0, depth2 = 0;
 
-	if (node->parent->left == node)
+	if (first == NULL || second == NULL)
+		return NULL;
+
+	while (ptr1->parent != NULL)
 	{
-		if (node->parent->right != NULL)
-			return (node->parent->right);
-		else
-			return (NULL);
+		ptr1 = ptr1->parent;
+		depth1++;
 	}
-	else
+
+	while (ptr2->parent != NULL)
 	{
-		if (node->parent->left != NULL)
-			return (node->parent->left);
-		else
-			return (NULL);
+		ptr2 = ptr2->parent;
+		depth2++;
 	}
+
+	ptr1 = first;
+	ptr2 = second;
+
+	while (depth1 > depth2)
+	{
+		ptr1 = ptr1->parent;
+		depth1--;
+	}
+
+	while (depth2 > depth1)
+	{
+		ptr2 = ptr2->parent;
+		depth2--;
+	}
+
+	while (ptr1 != ptr2)
+	{
+		ptr1 = ptr1->parent;
+		ptr2 = ptr2->parent;
+	}
+
+	return (binary_tree_t *)ptr1;
 }
 

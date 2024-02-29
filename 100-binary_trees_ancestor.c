@@ -14,7 +14,7 @@ binary_tree_t *binary_trees_ancestor(const binary_tree_t *first, const binary_tr
 	size_t depth1 = 0, depth2 = 0;
 
 	if (first == NULL || second == NULL)
-		return NULL;
+		return (NULL);
 
 	while (ptr1->parent != NULL)
 	{
@@ -49,6 +49,6 @@ binary_tree_t *binary_trees_ancestor(const binary_tree_t *first, const binary_tr
 		ptr2 = ptr2->parent;
 	}
 
-	return (binary_tree_t *)ptr1;
+	return ((binary_tree_t *)ptr1);
 }
 
