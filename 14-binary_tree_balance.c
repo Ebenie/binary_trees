@@ -1,35 +1,70 @@
 #include "binary_trees.h"
 
 /**
- * binary_tree_height - Measures the height of a binary tree.
- * @tree: A pointer to the root node of the tree to measure the height.
+ * min_value_node - Finds the node with the minimum value in a BST
+ * @node: A pointer to the root node of the subtree
  *
- * Return: The height of the binary tree.
+ * Return: A pointer to the node with the minimum value
  */
-size_t binary_tree_height(const binary_tree_t *tree)
+bst_t *min_value_node(bst_t *node)
 {
-	size_t left_height = 0, right_height = 0;
+    bst_t *current = node;
 
-	if (tree == NULL)
-		return (0);
 
-	left_height = tree->left ? 1 + binary_tree_height(tree->left) : 0;
-	right_height = tree->right ? 1 + binary_tree_height(tree->right) : 0;
+    while (current && current->left != NULL)
+        current = current->left;
 
-	return ((left_height < right_height) ? right_height : left_height);
+    return current;
 }
 
 /**
- * binary_tree_balance - Measures the balance factor of a binary tree.
- * @tree: A pointer to the root node of the tree to measure the balance factor.
+ * bst_remove - Removes a node from a Binary Search Tree
+ * @root: A pointer to the root node of the tree
+ * @value: The value to remove from the tree
  *
- * Return: The balance factor of the binary tree.
+ * Return: A pointer to the new root node of the tree after removal
  */
-int binary_tree_balance(const binary_tree_t *tree)
+bst_t *bst_remove(bst_t *root, int value)
 {
-	if (tree == NULL)
-		return (0);
+    if (root == NULL)
+        return NULL;
 
-	return (binary_tree_height(tree->left) - binary_tree_height(tree->right));
+
+    if (value < root->n)
+        root->left = bst_remove(root->left, value);
+
+
+    else if (value > root->n)
+        root->right = bst_remove(root->right, value);
+
+
+    else
+    {
+
+        if (root->left == NULL)
+        {
+            bst_t *temp = root->right;
+            free(root);
+            return temp;
+        }
+        else if (root->right == NULL)
+        {
+            bst_t *temp = root->left;
+            free(root);
+            return temp;
+        }
+
+
+        bst_t *temp = min_value_node(root->right);
+
+
+        root->n = temp->n;
+
+
+        root->right = bst_remove(root->right, temp->n);
+    }
+
+    return root;
 }
+
 
