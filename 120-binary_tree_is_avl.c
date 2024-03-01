@@ -5,7 +5,7 @@
  * @a: First integer
  * @b: Second integer
  *
- * Return: The maximum of a and b
+ * Return: The maximum of the two integers
  */
 int max(int a, int b)
 {
@@ -13,7 +13,7 @@ int max(int a, int b)
 }
 
 /**
- * height - Calculates the height of a binary tree
+ * height - Computes the height of a binary tree
  * @tree: A pointer to the root node of the tree
  *
  * Return: The height of the tree
@@ -21,29 +21,9 @@ int max(int a, int b)
 int height(const binary_tree_t *tree)
 {
     if (tree == NULL)
-        return -1;
+        return (0);
 
-    return 1 + max(height(tree->left), height(tree->right));
-}
-
-/**
- * binary_tree_is_bst - Checks if a binary tree is a valid Binary Search Tree
- * @tree: A pointer to the root node of the tree to check
- * @min: The minimum allowed value for nodes in the subtree
- * @max: The maximum allowed value for nodes in the subtree
- *
- * Return: 1 if tree is a valid BST, 0 otherwise
- */
-int binary_tree_is_bst(const binary_tree_t *tree, int min, int max)
-{
-    if (tree == NULL)
-        return 1;
-
-    if (tree->n <= min || tree->n >= max)
-        return 0;
-
-    return binary_tree_is_bst(tree->left, min, tree->n) &&
-           binary_tree_is_bst(tree->right, tree->n, max);
+    return (1 + max(height(tree->left), height(tree->right)));
 }
 
 /**
@@ -55,20 +35,18 @@ int binary_tree_is_bst(const binary_tree_t *tree, int min, int max)
 int binary_tree_is_avl(const binary_tree_t *tree)
 {
     if (tree == NULL)
-        return 0;
+        return (0);
 
-    int left_height = height(tree->left);
-    int right_height = height(tree->right);
+    int left_height, right_height;
 
-    if (abs(left_height - right_height) > 1)
-        return 0;
+    left_height = height(tree->left);
+    right_height = height(tree->right);
 
-    if (!binary_tree_is_bst(tree, INT_MIN, INT_MAX))
-        return 0;
+    if (abs(left_height - right_height) <= 1 &&
+        binary_tree_is_avl(tree->left) &&
+        binary_tree_is_avl(tree->right))
+        return (1);
 
-    if (!binary_tree_is_avl(tree->left) || !binary_tree_is_avl(tree->right))
-        return 0;
-
-    return 1;
+    return (0);
 }
 
