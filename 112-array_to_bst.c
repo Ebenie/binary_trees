@@ -1,4 +1,5 @@
 #include "binary_trees.h"
+
 /**
  * bst_insert - Inserts a value in a Binary Search Tree
  * @tree: A double pointer to the root node of the BST to insert the value
@@ -58,18 +59,10 @@ bst_t *array_to_bst(int *array, size_t size)
         return NULL;
 
     bst_t *root = NULL;
-
-
     size_t mid = size / 2;
-    bst_insert(&root, array[mid]);
 
-
-    if (mid > 0)
-        array_to_bst(array, mid);
-
-
-    if (mid < size - 1)
-        array_to_bst(array + mid + 1, size - mid - 1);
+    for (size_t i = 0; i < size; i++)
+        bst_insert(&root, array[i]);
 
     return root;
 }
